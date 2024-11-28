@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import { Await } from "react-router-dom";
 
 function App() {
   const [usuario, setUsuario] = useState("");
@@ -42,14 +43,22 @@ function App() {
     setClave(evento.target.value);
   }
 
-  function ingresar() {
-    if (usuario === "admin" && clave === "admin") {
-      alert("¡Bienvenido, admin!");
-      setAutenticado(true);
-      setContenido("inicio");
-    } else {
-      alert("Usuario o clave incorrectos");
-    }
+ async function ingresar() {
+  const peticion = await fetch("http://localhost:3000/login?usuario="+usuario+"&clave=" + clave)
+  if (peticion.ok) {
+    setAutenticado(true)
+    
+  } else {
+    alert("Usuario o clave incorrectos")
+  }
+
+    //if (usuario === "admin" && clave === "admin") {
+    //  alert("¡Bienvenido, admin!");
+    //  setAutenticado(true);
+    //  setContenido("inicio");
+   // } else {
+   //   alert("Usuario o clave incorrectos");
+   // }
   }
 
   function cambiarContenido(nuevoContenido) {
