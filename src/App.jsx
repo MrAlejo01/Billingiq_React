@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Await } from "react-router-dom";
 
@@ -44,10 +44,10 @@ function App() {
   }
 
  async function ingresar() {
-  const peticion = await fetch("http://localhost:3000/login?usuario="+usuario+"&clave=" + clave)
+  const peticion = await fetch("http://localhost:3000/login?usuario="+usuario+"&clave=" + clave,{credentials: "include"})
   if (peticion.ok) {
     setAutenticado(true)
-    
+
   } else {
     alert("Usuario o clave incorrectos")
   }
@@ -58,8 +58,18 @@ function App() {
     //  setContenido("inicio");
    // } else {
    //   alert("Usuario o clave incorrectos");
-   // }
+   // }4
   }
+  async function validar() {
+    const peticion = await fetch("http://localhost:3000/validar", {credentials: "include"})
+  if (peticion.ok) {
+    setAutenticado(true)
+
+  } 
+  }
+  useEffect(()=>{
+    validar()
+  }, [])
 
   function cambiarContenido(nuevoContenido) {
     setContenido(nuevoContenido);
